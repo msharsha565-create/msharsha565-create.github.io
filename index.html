@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sai Harsha Vardhan Mylavarapu · AI / LLM Engineer</title>
+<meta name="description" content="AI / LLM engineer building MCP servers and Claude agents with verification layers.">
+<style>
+:root{--bg:#fff;--fg:#17181a;--mut:#5d6168;--line:#e4e5e8;--card:#f6f7f9;--acc:#2457d6;--ok:#12803a}
+@media (prefers-color-scheme:dark){:root{--bg:#131417;--fg:#ececee;--mut:#9ba0a8;--line:#2f3238;--card:#1b1d21;--acc:#7ea2ff;--ok:#5fd08a}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--acc)}main{max-width:880px;margin:0 auto;padding:0 16px 64px}
+header{padding:56px 0 28px}h1{font-size:34px;line-height:1.15;margin:0 0 8px}
+.role{font-size:19px;color:var(--mut);margin:0 0 18px}
+.pitch{max-width:640px;margin:0 0 20px}
+.links a{display:inline-block;margin:0 10px 8px 0;padding:8px 14px;border:1px solid var(--line);border-radius:8px;text-decoration:none;font-size:14px}
+.links a.p{background:var(--acc);color:#fff;border-color:var(--acc)}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:44px 0 14px}
+.proj{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:22px;background:var(--card)}
+.proj img{display:block;width:100%;border-bottom:1px solid var(--line)}
+.body{padding:18px 20px}.body h3{margin:0 0 6px;font-size:21px}
+.body p{margin:0 0 12px;color:var(--mut)}
+pre{margin:0 0 14px;padding:12px;background:var(--bg);border:1px solid var(--line);border-radius:8px;font:12.5px/1.45 ui-monospace,monospace;overflow-x:auto}
+ul{margin:0 0 14px;padding-left:20px}li{margin:3px 0}
+.tags span{display:inline-block;font-size:12px;padding:2px 9px;border:1px solid var(--line);border-radius:999px;margin:0 6px 6px 0;color:var(--mut)}
+.proof{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.proof div{border:1px solid var(--line);border-radius:10px;padding:14px;background:var(--card)}
+.proof b{display:block;font-size:24px;color:var(--ok)}.proof span{font-size:13px;color:var(--mut)}
+footer{margin-top:48px;color:var(--mut);font-size:13px}
+</style></head><body><main>
+<header>
+<h1>Sai Harsha Vardhan Mylavarapu</h1>
+<p class="role">AI / LLM engineer</p>
+<p class="pitch">I build tool-using agents with MCP and Claude, and the verification layers that make their output trustworthy: the model drafts, a deterministic check validates against real data, and the loop repeats until the result is right.</p>
+<div class="links"><a class="p" href="https://github.com/msharsha565-create">GitHub</a><a href="#projects">Projects</a><a href="#verified">How it's verified</a></div>
+</header>
+
+<h2 id="projects">Projects</h2>
+
+<article class="proj">
+<img src="img/k8s-guardrail.png" alt="k8s-guardrail web demo rejecting a hallucinated Deployment with four errors" loading="lazy">
+<div class="body">
+<h3>k8s-manifest-guardrail</h3>
+<p>A validation gate for LLM-generated Kubernetes manifests, with an MCP server and a Claude agent that writes a manifest, checks it through MCP, and repairs it until it passes.</p>
+<pre>LLM draft ──► validate_manifest (MCP tool) ──► issues
+   ▲                                             │
+   └──────────── fix and retry ◄─────────────────┘</pre>
+<ul>
+<li>Catches hallucinated apiVersions, missing selectors, privileged containers, unpinned images, missing limits</li>
+<li>CLI, library, web demo, Docker image and MCP server</li>
+<li>17 tests, ruff, CI on Python 3.10–3.12 plus a Docker build</li>
+</ul>
+<div class="tags"><span>Python</span><span>MCP</span><span>Anthropic tool use</span><span>Docker</span><span>GitHub Actions</span></div>
+<a href="https://github.com/msharsha565-create/k8s-manifest-guardrail">View repository →</a>
+</div></article>
+
+<article class="proj">
+<img src="img/depwatch.png" alt="depwatch web demo auditing a requirements file against PyPI" loading="lazy">
+<div class="body">
+<h3>depwatch-mcp</h3>
+<p>An MCP server that gives agents live dependency-health data from PyPI and npm, plus an agent that audits a requirements file and writes an upgrade report.</p>
+<pre>requirements.txt ──► Claude ──► MCP tools ──► PyPI / npm (live)
+                       ▲             │
+                       └── flags ◄───┘</pre>
+<ul>
+<li>Flags outdated, unpinned, stale, yanked and unlicensed packages, and packages that do not exist</li>
+<li>Web demo: paste a requirements file, get a live results table</li>
+<li>12 tests with mocked registries; also verified against the real APIs</li>
+</ul>
+<div class="tags"><span>Python</span><span>MCP</span><span>httpx</span><span>Starlette</span><span>pytest</span></div>
+<a href="https://github.com/msharsha565-create/depwatch-mcp">View repository →</a>
+</div></article>
+
+<h2 id="verified">How it's verified</h2>
+<div class="proof">
+<div><b>2</b><span>public repos, each with CI passing on GitHub Actions</span></div>
+<div><b>29</b><span>automated tests across both repos</span></div>
+<div><b>0</b><span>API keys needed in CI: agent loops are tested with scripted fake models</span></div>
+</div>
+<p style="color:var(--mut);margin-top:16px">Each repository lists its limitations. For example, the Kubernetes checker is a rule-based linter rather than a full schema validator, and depwatch checks freshness, not CVEs.</p>
+
+<footer>Built with plain HTML. Source: <a href="https://github.com/msharsha565-create/msharsha565-create.github.io">msharsha565-create.github.io</a></footer>
+</main></body></html>
