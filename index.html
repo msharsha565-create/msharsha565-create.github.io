@@ -33,8 +33,32 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
 <div class="links"><a class="p" href="https://github.com/msharsha565-create">GitHub</a><a href="#projects">Projects</a><a href="#verified">How it's verified</a></div>
 </header>
 
-<h2 id="projects">Projects</h2>
+<h2 id="projects">Featured projects</h2>
 
+<article class="proj">
+<img src="img/llm-eval.png" alt="llm-eval dashboard comparing two runs, flagging 2 regressions behind an equal pass rate" loading="lazy">
+<div class="body">
+<h3>llm-eval-harness</h3>
+<p>Regression testing for LLM outputs: run a model over a categorized suite, record latency, tokens and cost, compare two runs, and fail CI when something that used to pass now fails.</p>
+<pre>suite (55 cases) ──► model ──► scorers ──► run.json
+                                          │
+        llm-eval compare a.json b.json ◄──┘  exit 1 on regression</pre>
+<ul><li>Layered scoring: exact match, JSON Schema, embedding similarity, LLM-as-judge</li><li>Works with any OpenAI-compatible endpoint (OpenAI, Ollama, vLLM); records temperature, seed, p50/p95 latency, tokens, cost</li><li>Case-level diffs: two runs with the same pass rate can still hide regressions</li><li>52 tests; HTTP paths tested against mocked and local fake servers</li></ul>
+<div class="tags"><span>Python</span><span>LLM evaluation</span><span>JSON Schema</span><span>CI gate</span><span>httpx</span></div>
+<a href="https://github.com/msharsha565-create/llm-eval-harness">View repository →</a>
+</div></article>
+<article class="proj">
+<img src="img/sqlite-explorer.png" alt="sqlite-explorer asking a question in plain English and running the generated SQL" loading="lazy">
+<div class="body">
+<h3>sqlite-mcp-explorer</h3>
+<p>A sandboxed text-to-SQL stack for AI agents: a read-only SQL server over MCP, a natural-language interface, and a benchmark that scores any generator on syntax validity, schema adherence and execution accuracy.</p>
+<pre>question ──► generator ──► SQL ──► read-only sandbox ──► rows
+                                 │
+     benchmark: syntax · schema · execution accuracy (53 questions)</pre>
+<ul><li>Defense in depth: read-only connection, SQLite authorizer allow-list, one statement per call, row cap, query timeout</li><li>Hallucinated columns fail schema adherence; generated writes are flagged unsafe and never run</li><li>Benchmark answers are executed SQL, not text; CI gate with <code>--min-accuracy</code></li><li>48 tests including attack queries against each safety layer</li></ul>
+<div class="tags"><span>Python</span><span>MCP</span><span>SQLite</span><span>Text-to-SQL</span><span>Starlette</span></div>
+<a href="https://github.com/msharsha565-create/sqlite-mcp-explorer">View repository →</a>
+</div></article>
 <article class="proj">
 <img src="img/k8s-guardrail.png" alt="k8s-guardrail web demo rejecting a hallucinated Deployment with four errors" loading="lazy">
 <div class="body">
@@ -43,15 +67,10 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
 <pre>LLM draft ──► validate_manifest (MCP tool) ──► issues
    ▲                                             │
    └──────────── fix and retry ◄─────────────────┘</pre>
-<ul>
-<li>Catches hallucinated apiVersions, missing selectors, privileged containers, unpinned images, missing limits</li>
-<li>CLI, library, web demo, Docker image and MCP server</li>
-<li>17 tests, ruff, CI on Python 3.10–3.12 plus a Docker build</li>
-</ul>
+<ul><li>Catches hallucinated apiVersions, missing selectors, privileged containers, unpinned images, missing limits</li><li>CLI, library, web demo, Docker image and MCP server</li><li>26 tests, CI on Python 3.10–3.12 plus a Docker build</li></ul>
 <div class="tags"><span>Python</span><span>MCP</span><span>Anthropic tool use</span><span>Docker</span><span>GitHub Actions</span></div>
 <a href="https://github.com/msharsha565-create/k8s-manifest-guardrail">View repository →</a>
 </div></article>
-
 <article class="proj">
 <img src="img/depwatch.png" alt="depwatch web demo auditing a requirements file against PyPI" loading="lazy">
 <div class="body">
@@ -60,22 +79,27 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
 <pre>requirements.txt ──► Claude ──► MCP tools ──► PyPI / npm (live)
                        ▲             │
                        └── flags ◄───┘</pre>
-<ul>
-<li>Flags outdated, unpinned, stale, yanked and unlicensed packages, and packages that do not exist</li>
-<li>Web demo: paste a requirements file, get a live results table</li>
-<li>12 tests with mocked registries; also verified against the real APIs</li>
-</ul>
+<ul><li>Flags outdated, unpinned, stale, yanked and unlicensed packages, and packages that do not exist</li><li>Validates package names and throttles registry requests</li><li>24 tests with mocked registries; also verified against the real APIs</li></ul>
 <div class="tags"><span>Python</span><span>MCP</span><span>httpx</span><span>Starlette</span><span>pytest</span></div>
 <a href="https://github.com/msharsha565-create/depwatch-mcp">View repository →</a>
 </div></article>
 
+<h2>Also</h2>
+<article class="proj">
+<div class="body">
+<h3>docsearch-mcp</h3>
+<p>Local document search with cited sources, as an MCP server and web app. BM25 ranking in pure Python: no API key, no model download. 10 tests.</p>
+<div class="tags"><span>Python</span><span>MCP</span><span>BM25</span><span>Retrieval</span></div>
+<a href="https://github.com/msharsha565-create/docsearch-mcp">View repository →</a>
+</div></article>
+
 <h2 id="verified">How it's verified</h2>
 <div class="proof">
-<div><b>2</b><span>public repos, each with CI passing on GitHub Actions</span></div>
-<div><b>29</b><span>automated tests across both repos</span></div>
-<div><b>0</b><span>API keys needed in CI: agent loops are tested with scripted fake models</span></div>
+<div><b>5</b><span>public repos, each with CI passing on GitHub Actions</span></div>
+<div><b>160</b><span>automated tests across the five repos</span></div>
+<div><b>0</b><span>API keys needed in CI: agent loops use scripted fake models</span></div>
 </div>
-<p style="color:var(--mut);margin-top:16px">Each repository lists its limitations. For example, the Kubernetes checker is a rule-based linter rather than a full schema validator, and depwatch checks freshness, not CVEs.</p>
+<p style="color:var(--mut);margin-top:16px">Each repository lists its limitations. The demo "models" in the eval harness and the text-to-SQL baseline are rule-based stand-ins, not LLMs, and are labelled that way. Live runs against a real hosted or local LLM have not been performed yet.</p>
 
 <footer>Built with plain HTML. Source: <a href="https://github.com/msharsha565-create/msharsha565-create.github.io">msharsha565-create.github.io</a></footer>
 </main></body></html>
