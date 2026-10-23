@@ -35,13 +35,16 @@ ul{margin:0 0 14px;padding-left:20px}li{margin:3px 0}
 details.rep{margin-top:10px}details.rep summary{cursor:pointer;color:var(--acc);font-size:14px}
 details.rep iframe{width:100%;height:560px;border:1px solid var(--line);border-radius:8px;margin-top:10px;background:var(--bg)}
 .links2 a{margin-right:14px;font-size:14px}
+.exp{list-style:none;padding:0;margin:0 0 6px}.exp li{margin:0 0 14px}.exp .d{color:var(--mut);font-size:13px;margin-left:6px}
+.chip{display:inline-block;font-size:11px;padding:1px 8px;border:1px solid var(--line);border-radius:999px;color:var(--mut);margin-left:6px;vertical-align:1px}
+.chip.ip{color:var(--acc);border-color:var(--acc)}.exp p{margin:2px 0 0;color:var(--mut)}
 footer{margin-top:48px;color:var(--mut);font-size:13px}
 </style></head><body><main>
 <header>
 <h1>Sai Harsha Vardhan Mylavarapu</h1>
 <p class="role">AI / LLM engineer</p>
 <p class="pitch">I build evaluation and verification tooling for LLM systems: MCP servers, text-to-SQL benchmarks, and regression gates that catch problems before they ship. A model drafts, a deterministic check validates against real data, and the loop repeats until the result is right.</p>
-<div class="links"><a class="p" href="https://github.com/msharsha565-create">GitHub</a><a href="#demo">Demo</a><a href="#background">Background</a><a href="#projects">Projects</a><a href="#verified">How it's verified</a></div>
+<div class="links"><a class="p" href="https://github.com/msharsha565-create">GitHub</a><a href="#demo">Demo</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#verified">How it's verified</a></div>
 <div class="links"><a href="mailto:saiharshamylavara@gmail.com">saiharshamylavara@gmail.com</a><a href="tel:+19402901769">940-290-1769</a><a href="https://www.linkedin.com/in/sai-vardhan-mylavarapu-722b67388/">LinkedIn</a></div>
 </header>
 
@@ -56,6 +59,7 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
 (function(){
   var el=document.getElementById('term'),btn=document.getElementById('replay'),events=[],timers=[],started=false;
   function clear(){timers.forEach(clearTimeout);timers=[];el.textContent=''}
+  el.textContent='Recording plays when this section scrolls into view. Press Replay to start it.';
   function text(e){return e[2].replace(/\x1b\[[0-9;]*m/g,'').replace(/\r\n/g,'\n')}
   function play(){
     clear();
@@ -72,9 +76,23 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
 })();
 </script>
 
-<h2 id="background">Background</h2>
+<h2 id="experience">Experience</h2>
 <div class="proj"><div class="body">
-<p><b>Education.</b> Ph.D. in Information Technology (Artificial Intelligence), University of the Cumberlands. Doctoral research on AI governance: technology risk classification, AI policy forecasting, and an adaptive governance framework.</p>
+<h3 style="font-size:17px;margin:0 0 10px">Independent projects <span class="d" style="color:var(--mut);font-size:13px;font-weight:400">2026 – present</span></h3>
+<ul class="exp">
+<li><b><a href="https://github.com/msharsha565-create/llm-eval-harness">llm-eval-harness</a></b><span class="d">Oct 2026 –</span><span class="chip">Working · CI passing</span><p>Fails a CI build when a model update breaks something that used to work. In the demo, two runs both scored 84% and it still caught 2 hidden regressions. Python.</p></li>
+<li><b><a href="https://github.com/msharsha565-create/sqlite-mcp-explorer">sqlite-mcp-explorer</a></b><span class="d">Oct 2026 –</span><span class="chip">Working · CI passing</span><p>Lets an AI agent query a database but never change it, with a 53-question text-to-SQL benchmark. Python.</p></li>
+<li><b><a href="https://github.com/msharsha565-create/omnibrain-backend/tree/feature/real-rag">OmniBrain backend</a></b><span class="d">Feb 2026 –</span><span class="chip ip">In progress</span><p>Login, per-user usage limits and document question-answering (RAG) in Java 21 and Spring Boot. The security cleanup and a working RAG pipeline are on the <code>feature/real-rag</code> branch and not yet merged into <code>main</code>.</p></li>
+<li><b><a href="https://github.com/msharsha565-create/k8s-manifest-guardrail">k8s-manifest-guardrail</a></b><span class="d">Oct 2026 –</span><span class="chip">Working · CI passing</span><p>Rejects bad Kubernetes YAML written by an AI before it reaches a cluster. Python.</p></li>
+<li><b><a href="https://github.com/msharsha565-create/depwatch-mcp">depwatch-mcp</a></b><span class="d">Oct 2026 –</span><span class="chip">Working · CI passing</span><p>Gives AI agents live dependency-health data from PyPI and npm. Python.</p></li>
+<li><b><a href="https://github.com/msharsha565-create/docsearch-mcp">docsearch-mcp</a></b><span class="d">Oct 2026 –</span><span class="chip">Working · CI passing</span><p>Local document search with cited sources and no API key. Python.</p></li>
+</ul>
+<p style="margin:6px 0 0"><b>Professional experience.</b> Employers, titles and dates are on <a href="https://www.linkedin.com/in/sai-vardhan-mylavarapu-722b67388/">my LinkedIn profile</a>.</p>
+</div></div>
+
+<h2 id="education">Education and skills</h2>
+<div class="proj"><div class="body">
+<p><b>Education.</b> Ph.D. candidate, Information Technology (Artificial Intelligence), University of the Cumberlands. <span class="chip ip" style="margin-left:0">In progress</span> Doctoral research on AI governance: technology risk classification, AI policy forecasting, and an adaptive governance framework.</p>
 <p><b>Experience areas.</b> Software engineering with enterprise identity and access management (Okta, SailPoint, Oracle IAM; OAuth2, OpenID Connect, SAML, LDAP), cloud (AWS, Azure), and Java / Spring Boot microservices.</p>
 <p style="margin:0"><b>Languages and tools.</b> Java, Python, Go, JavaScript, SQL; Spring Boot, Kafka; Docker, Kubernetes; PostgreSQL, Oracle, SQL Server. The projects below are the Python work I can show publicly.</p>
 <p style="margin:14px 0 6px"><b>How identity thinking shows up in the agent work.</b> Identity and access work is about scoping every capability instead of granting it. The same rules apply to agent tools:</p>
