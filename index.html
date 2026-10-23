@@ -128,6 +128,8 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
 <div class="tags"><span>Python</span><span>MCP</span><span>Tool-use agents</span><span>Docker</span><span>GitHub Actions</span></div>
 <p class="qsl">Try it (Python 3.10+, checked from a clean virtual environment):</p>
 <pre class="qs">pip install git+https://github.com/msharsha565-create/k8s-manifest-guardrail &amp;&amp; printf 'apiVersion: extensions/v1beta1\nkind: Deployment\nmetadata: {name: web}\n' | k8s-guardrail -</pre>
+<p class="qsl">Or with Docker (the same build and run steps the repository's CI executes on every push):</p>
+<pre class="qs">git clone https://github.com/msharsha565-create/k8s-manifest-guardrail &amp;&amp; cd k8s-manifest-guardrail &amp;&amp; docker build -t k8s-guardrail . &amp;&amp; docker run --rm -v "$PWD/tests/fixtures:/m:ro" k8s-guardrail /m/valid_deployment.yaml</pre>
 <a href="https://github.com/msharsha565-create/k8s-manifest-guardrail">View repository →</a>
 </div></article>
 <article class="proj">
