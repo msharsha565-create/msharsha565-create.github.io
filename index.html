@@ -43,7 +43,7 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
 <pre>suite (55 cases) ──► model ──► scorers ──► run.json
                                           │
         llm-eval compare a.json b.json ◄──┘  exit 1 on regression</pre>
-<ul><li>Layered scoring: exact match, JSON Schema, embedding similarity, LLM-as-judge</li><li>Works with any OpenAI-compatible endpoint (OpenAI, Ollama, vLLM); records temperature, seed, p50/p95 latency, tokens, cost</li><li>Case-level diffs: two runs with the same pass rate can still hide regressions</li><li>52 tests; HTTP paths tested against mocked and local fake servers</li></ul>
+<ul><li>Layered scoring: exact match, JSON Schema, embedding similarity, LLM-as-judge</li><li>Works with any OpenAI-compatible endpoint (OpenAI, Ollama, vLLM); records temperature, seed, p50/p95 latency, tokens, cost</li><li>Case-level diffs: two runs with the same pass rate can still hide regressions</li><li>55 tests; ran live against Gemini (see results below), plus mocked and fake-server tests</li></ul>
 <div class="tags"><span>Python</span><span>LLM evaluation</span><span>JSON Schema</span><span>CI gate</span><span>httpx</span></div>
 <a href="https://github.com/msharsha565-create/llm-eval-harness">View repository →</a>
 </div></article>
@@ -55,7 +55,7 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
 <pre>question ──► generator ──► SQL ──► read-only sandbox ──► rows
                                  │
      benchmark: syntax · schema · execution accuracy (53 questions)</pre>
-<ul><li>Defense in depth: read-only connection, SQLite authorizer allow-list, one statement per call, row cap, query timeout</li><li>Hallucinated columns fail schema adherence; generated writes are flagged unsafe and never run</li><li>Benchmark answers are executed SQL, not text; CI gate with <code>--min-accuracy</code></li><li>48 tests including attack queries against each safety layer</li></ul>
+<ul><li>Defense in depth: read-only connection, SQLite authorizer allow-list, one statement per call, row cap, query timeout</li><li>Hallucinated columns fail schema adherence; generated writes are flagged unsafe and never run</li><li>Benchmark answers are executed SQL, not text; CI gate with <code>--min-accuracy</code></li><li>51 tests including attack queries against each safety layer</li></ul>
 <div class="tags"><span>Python</span><span>MCP</span><span>SQLite</span><span>Text-to-SQL</span><span>Starlette</span></div>
 <a href="https://github.com/msharsha565-create/sqlite-mcp-explorer">View repository →</a>
 </div></article>
@@ -93,13 +93,21 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
 <a href="https://github.com/msharsha565-create/docsearch-mcp">View repository →</a>
 </div></article>
 
+<h2 id="live">Live results (Gemini)</h2>
+<div class="proof">
+<div><b>96%</b><span>llm-eval-harness, 53/55, with a "final answer only" system prompt</span></div>
+<div><b>75%</b><span>same suite, plain prompt: 41/55, all 13 arithmetic cases failed on formatting</span></div>
+<div><b>100%</b><span>text-to-SQL benchmark, 53/53 execution accuracy</span></div>
+</div>
+<p style="color:var(--mut);margin-top:16px">Model: <code>gemini-3.1-flash-lite</code>, free tier, temperature 0, one run each, run on 2026-10-22. Caveats: the 75% is a formatting gap, not ability (the model answers "17 + 25 = 42", which fails exact match). The judged cases are graded by the same model. The 96% run used the suite before two prompts were fixed and could not be repeated because the daily quota ran out. The SQL benchmark is small and easy, so 100% shows the pipeline works end to end rather than ranking models, and one question was reworded after a first run scored 98%. Full detail is in each repository's README.</p>
+
 <h2 id="verified">How it's verified</h2>
 <div class="proof">
 <div><b>5</b><span>public repos, each with CI passing on GitHub Actions</span></div>
-<div><b>160</b><span>automated tests across the five repos</span></div>
+<div><b>166</b><span>automated tests across the five repos</span></div>
 <div><b>0</b><span>API keys needed in CI: agent loops use scripted fake models</span></div>
 </div>
-<p style="color:var(--mut);margin-top:16px">Each repository lists its limitations. The demo "models" in the eval harness and the text-to-SQL baseline are rule-based stand-ins, not LLMs, and are labelled that way. Live runs against a real hosted or local LLM have not been performed yet.</p>
+<p style="color:var(--mut);margin-top:16px">Each repository lists its limitations. The demo "models" in the eval harness and the text-to-SQL baseline are rule-based stand-ins, not LLMs, and are labelled that way. The Claude agents in k8s-manifest-guardrail and depwatch-mcp have not been run live yet.</p>
 
 <footer>Built with plain HTML. Source: <a href="https://github.com/msharsha565-create/msharsha565-create.github.io">msharsha565-create.github.io</a></footer>
 </main></body></html>
