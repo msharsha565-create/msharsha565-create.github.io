@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en"><head><meta charset="utf-8"><link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sai Harsha Vardhan Mylavarapu · AI / LLM Engineer</title>
 <meta name="description" content="AI / LLM engineer building evaluation and verification tooling for LLM systems: MCP servers, text-to-SQL benchmarks, regression gates.">
 <style>
@@ -24,21 +25,65 @@ ul{margin:0 0 14px;padding-left:20px}li{margin:3px 0}
 .proof{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
 .proof div{border:1px solid var(--line);border-radius:10px;padding:14px;background:var(--card)}
 .proof b{display:block;font-size:24px;color:var(--ok)}.proof span{font-size:13px;color:var(--mut)}
+
+.term{background:#0f1115;color:#d7dae0;border-radius:12px;overflow:hidden;border:1px solid #2a2d34;margin:0 0 12px}
+.term .bar{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;font-size:12px;color:#9aa0aa;border-bottom:1px solid #2a2d34}
+.term button{background:transparent;color:#9ec1ff;border:1px solid #3a4150;border-radius:6px;padding:3px 10px;font-size:12px;cursor:pointer}
+.term pre{margin:0;padding:14px 16px;border:0;border-radius:0;background:transparent;color:inherit;min-height:20em;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-x:auto}
+.qs{margin:0 0 14px;font-size:12px}
+.qsl{font-size:12px;color:var(--mut);margin:0 0 4px}
+details.rep{margin-top:10px}details.rep summary{cursor:pointer;color:var(--acc);font-size:14px}
+details.rep iframe{width:100%;height:560px;border:1px solid var(--line);border-radius:8px;margin-top:10px;background:var(--bg)}
+.links2 a{margin-right:14px;font-size:14px}
 footer{margin-top:48px;color:var(--mut);font-size:13px}
 </style></head><body><main>
 <header>
 <h1>Sai Harsha Vardhan Mylavarapu</h1>
 <p class="role">AI / LLM engineer</p>
 <p class="pitch">I build evaluation and verification tooling for LLM systems: MCP servers, text-to-SQL benchmarks, and regression gates that catch problems before they ship. A model drafts, a deterministic check validates against real data, and the loop repeats until the result is right.</p>
-<div class="links"><a class="p" href="https://github.com/msharsha565-create">GitHub</a><a href="#background">Background</a><a href="#projects">Projects</a><a href="#verified">How it's verified</a></div>
+<div class="links"><a class="p" href="https://github.com/msharsha565-create">GitHub</a><a href="#demo">Demo</a><a href="#background">Background</a><a href="#projects">Projects</a><a href="#verified">How it's verified</a></div>
 <div class="links"><a href="mailto:saiharshamylavara@gmail.com">saiharshamylavara@gmail.com</a><a href="tel:+19402901769">940-290-1769</a><a href="https://www.linkedin.com/in/sai-vardhan-mylavarapu-722b67388/">LinkedIn</a></div>
 </header>
+
+<h2 id="demo">See it catch a regression</h2>
+<div class="term"><div class="bar"><span>terminal: recorded from real commands</span><button id="replay" type="button">Replay</button></div>
+<pre id="term" aria-live="polite" aria-label="Terminal recording of llm-eval comparing two runs"></pre></div>
+<p style="color:var(--mut);font-size:14px;margin:0 0 6px">Two versions of a rule-based baseline both score 84%. A pass-rate chart would call them equal, but <code>llm-eval compare</code> finds two cases that broke and exits with code 1, which is what fails a CI build. The output is real; only the typing speed of the prompt line is simulated.</p>
+<details class="rep"><summary>Open the interactive report from those runs</summary>
+<iframe src="demo/llm-eval-report.html" title="llm-eval comparison report" loading="lazy"></iframe></details>
+<p class="links2" style="margin-top:10px"><a href="demo/llm-eval-report.html">Full report</a><a href="demo/run-rules-v1.json">run-rules-v1.json</a><a href="demo/run-rules-v2.json">run-rules-v2.json</a><a href="demo/regression.cast">raw recording (asciicast)</a></p>
+<script>
+(function(){
+  var el=document.getElementById('term'),btn=document.getElementById('replay'),events=[],timers=[],started=false;
+  function clear(){timers.forEach(clearTimeout);timers=[];el.textContent=''}
+  function text(e){return e[2].replace(/\x1b\[[0-9;]*m/g,'').replace(/\r\n/g,'\n')}
+  function play(){
+    clear();
+    if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){el.textContent=events.map(text).join('');return}
+    events.forEach(function(e){timers.push(setTimeout(function(){el.textContent+=text(e)},e[0]*1000))});
+  }
+  fetch('demo/regression.cast').then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(t){
+    events=t.trim().split('\n').slice(1).map(function(l){return JSON.parse(l)}).filter(function(e){return e[1]==='o'});
+    btn.onclick=play;
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es,o){if(es[0].isIntersecting&&!started){started=true;play();o.disconnect()}},{threshold:0.4}).observe(el);
+    }else{started=true;play()}
+  }).catch(function(){el.textContent='The recording could not be loaded. See the raw file linked below.'});
+})();
+</script>
 
 <h2 id="background">Background</h2>
 <div class="proj"><div class="body">
 <p><b>Education.</b> Ph.D. in Information Technology (Artificial Intelligence), University of the Cumberlands. Doctoral research on AI governance: technology risk classification, AI policy forecasting, and an adaptive governance framework.</p>
 <p><b>Experience areas.</b> Software engineering with enterprise identity and access management (Okta, SailPoint, Oracle IAM; OAuth2, OpenID Connect, SAML, LDAP), cloud (AWS, Azure), and Java / Spring Boot microservices.</p>
 <p style="margin:0"><b>Languages and tools.</b> Java, Python, Go, JavaScript, SQL; Spring Boot, Kafka; Docker, Kubernetes; PostgreSQL, Oracle, SQL Server. The projects below are the Python work I can show publicly.</p>
+<p style="margin:14px 0 6px"><b>How identity thinking shows up in the agent work.</b> Identity and access work is about scoping every capability instead of granting it. The same rules apply to agent tools:</p>
+<ul style="margin:0 0 4px;color:var(--mut)">
+<li><b>Deny by default.</b> The SQL sandbox allows only SELECT, column reads and functions; every other statement is refused by the database itself, and model-generated writes are flagged as unsafe and never run (sqlite-mcp-explorer).</li>
+<li><b>Policy as code.</b> Privileged containers, privilege escalation and missing resource limits are checked before a generated manifest goes anywhere (k8s-manifest-guardrail).</li>
+<li><b>Validate at the trust boundary.</b> Package names are checked before they reach a registry URL, and requests to the registry are throttled (depwatch-mcp).</li>
+<li><b>Containment.</b> Files whose real path leaves the indexed folder, such as a symlink to a system file, are skipped (docsearch-mcp).</li>
+</ul>
 </div></div>
 
 <h2 id="projects">Featured projects</h2>
@@ -53,6 +98,8 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
         llm-eval compare a.json b.json ◄──┘  exit 1 on regression</pre>
 <ul><li>Layered scoring: exact match, JSON Schema, embedding similarity, LLM-as-judge</li><li>Works with any OpenAI-compatible endpoint (OpenAI, Ollama, vLLM); records temperature, seed, p50/p95 latency, tokens, cost</li><li>Case-level diffs: two runs with the same pass rate can still hide regressions</li><li>55 tests; ran live against Gemini (see results below), plus mocked and fake-server tests</li></ul>
 <div class="tags"><span>Python</span><span>LLM evaluation</span><span>JSON Schema</span><span>CI gate</span><span>httpx</span></div>
+<p class="qsl">Try it (Python 3.10+, checked from a clean virtual environment):</p>
+<pre class="qs">pip install git+https://github.com/msharsha565-create/llm-eval-harness &amp;&amp; llm-eval run --model rules-v1</pre>
 <a href="https://github.com/msharsha565-create/llm-eval-harness">View repository →</a>
 </div></article>
 <article class="proj">
@@ -65,6 +112,8 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
      benchmark: syntax · schema · execution accuracy (53 questions)</pre>
 <ul><li>Defense in depth: read-only connection, SQLite authorizer allow-list, one statement per call, row cap, query timeout</li><li>Hallucinated columns fail schema adherence; generated writes are flagged unsafe and never run</li><li>Benchmark answers are executed SQL, not text; CI gate with <code>--min-accuracy</code></li><li>51 tests including attack queries against each safety layer</li></ul>
 <div class="tags"><span>Python</span><span>MCP</span><span>SQLite</span><span>Text-to-SQL</span><span>Starlette</span></div>
+<p class="qsl">Try it (Python 3.10+, checked from a clean virtual environment):</p>
+<pre class="qs">pip install git+https://github.com/msharsha565-create/sqlite-mcp-explorer &amp;&amp; sqlite-explorer-bench</pre>
 <a href="https://github.com/msharsha565-create/sqlite-mcp-explorer">View repository →</a>
 </div></article>
 <article class="proj">
@@ -77,6 +126,8 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
    └──────────── fix and retry ◄─────────────────┘</pre>
 <ul><li>Catches hallucinated apiVersions, missing selectors, privileged containers, unpinned images, missing limits</li><li>CLI, library, web demo, Docker image and MCP server</li><li>36 tests, CI on Python 3.10–3.12 plus a Docker build; agent ran live on Gemini and passed its manifest check</li></ul>
 <div class="tags"><span>Python</span><span>MCP</span><span>Tool-use agents</span><span>Docker</span><span>GitHub Actions</span></div>
+<p class="qsl">Try it (Python 3.10+, checked from a clean virtual environment):</p>
+<pre class="qs">pip install git+https://github.com/msharsha565-create/k8s-manifest-guardrail &amp;&amp; printf 'apiVersion: extensions/v1beta1\nkind: Deployment\nmetadata: {name: web}\n' | k8s-guardrail -</pre>
 <a href="https://github.com/msharsha565-create/k8s-manifest-guardrail">View repository →</a>
 </div></article>
 <article class="proj">
@@ -89,6 +140,8 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
                         └── flags ◄─────┘</pre>
 <ul><li>Flags outdated, unpinned, stale, yanked and unlicensed packages, and packages that do not exist</li><li>Validates package names and throttles registry requests</li><li>35 tests with mocked registries; also verified against the real APIs; agent ran live on Gemini and wrote an audit report</li></ul>
 <div class="tags"><span>Python</span><span>MCP</span><span>httpx</span><span>Starlette</span><span>pytest</span></div>
+<p class="qsl">Try it (Python 3.10+, checked from a clean virtual environment):</p>
+<pre class="qs">pip install git+https://github.com/msharsha565-create/depwatch-mcp &amp;&amp; depwatch-web   # then open http://127.0.0.1:8000</pre>
 <a href="https://github.com/msharsha565-create/depwatch-mcp">View repository →</a>
 </div></article>
 
@@ -98,6 +151,8 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
 <h3>docsearch-mcp</h3>
 <p>Local document search with cited sources, as an MCP server and web app. BM25 ranking in pure Python: no API key, no model download. 10 tests.</p>
 <div class="tags"><span>Python</span><span>MCP</span><span>BM25</span><span>Retrieval</span></div>
+<p class="qsl">Try it (Python 3.10+, checked from a clean virtual environment):</p>
+<pre class="qs">pip install git+https://github.com/msharsha565-create/docsearch-mcp &amp;&amp; docsearch-web   # then open http://127.0.0.1:8000</pre>
 <a href="https://github.com/msharsha565-create/docsearch-mcp">View repository →</a>
 </div></article>
 
