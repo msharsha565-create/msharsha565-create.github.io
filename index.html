@@ -68,7 +68,7 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
 <pre>LLM draft ──► validate_manifest (MCP tool) ──► issues
    ▲                                             │
    └──────────── fix and retry ◄─────────────────┘</pre>
-<ul><li>Catches hallucinated apiVersions, missing selectors, privileged containers, unpinned images, missing limits</li><li>CLI, library, web demo, Docker image and MCP server</li><li>35 tests, CI on Python 3.10–3.12 plus a Docker build; agent runs on Claude or any OpenAI-compatible API</li></ul>
+<ul><li>Catches hallucinated apiVersions, missing selectors, privileged containers, unpinned images, missing limits</li><li>CLI, library, web demo, Docker image and MCP server</li><li>36 tests, CI on Python 3.10–3.12 plus a Docker build; agent ran live on Gemini and passed its manifest check</li></ul>
 <div class="tags"><span>Python</span><span>MCP</span><span>Anthropic tool use</span><span>Docker</span><span>GitHub Actions</span></div>
 <a href="https://github.com/msharsha565-create/k8s-manifest-guardrail">View repository →</a>
 </div></article>
@@ -80,7 +80,7 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
 <pre>requirements.txt ──► Claude ──► MCP tools ──► PyPI / npm (live)
                        ▲             │
                        └── flags ◄───┘</pre>
-<ul><li>Flags outdated, unpinned, stale, yanked and unlicensed packages, and packages that do not exist</li><li>Validates package names and throttles registry requests</li><li>34 tests with mocked registries; also verified against the real APIs; agent runs on Claude or any OpenAI-compatible API</li></ul>
+<ul><li>Flags outdated, unpinned, stale, yanked and unlicensed packages, and packages that do not exist</li><li>Validates package names and throttles registry requests</li><li>35 tests with mocked registries; also verified against the real APIs; agent ran live on Gemini and wrote an audit report</li></ul>
 <div class="tags"><span>Python</span><span>MCP</span><span>httpx</span><span>Starlette</span><span>pytest</span></div>
 <a href="https://github.com/msharsha565-create/depwatch-mcp">View repository →</a>
 </div></article>
@@ -105,10 +105,10 @@ footer{margin-top:48px;color:var(--mut);font-size:13px}
 <h2 id="verified">How it's verified</h2>
 <div class="proof">
 <div><b>5</b><span>public repos, each with CI passing on GitHub Actions</span></div>
-<div><b>185</b><span>automated tests across the five repos</span></div>
+<div><b>187</b><span>automated tests across the five repos</span></div>
 <div><b>0</b><span>API keys needed in CI: agent loops use scripted fake models</span></div>
 </div>
-<p style="color:var(--mut);margin-top:16px">Each repository lists its limitations. The demo "models" in the eval harness and the text-to-SQL baseline are rule-based stand-ins, not LLMs, and are labelled that way. The agents in k8s-manifest-guardrail and depwatch-mcp run on Claude or any OpenAI-compatible API such as Gemini, but have not been run live yet.</p>
+<p style="color:var(--mut);margin-top:16px">Each repository lists its limitations. The demo "models" in the eval harness and the text-to-SQL baseline are rule-based stand-ins, not LLMs, and are labelled that way. The agents in k8s-manifest-guardrail and depwatch-mcp each ran live once on Gemini (single runs, free tier). The Claude path has not been run live, and in the Kubernetes run the first draft passed, so the repair loop was not observed live.</p>
 
 <footer>Built with plain HTML. Source: <a href="https://github.com/msharsha565-create/msharsha565-create.github.io">msharsha565-create.github.io</a></footer>
 </main></body></html>
